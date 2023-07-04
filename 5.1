@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+   int main(){
+   	
+   	
+   	FILE *dosya1;
+   	int sayi;
+   	int i;
+   	int sayac=0;
+   	int *ptr;
+   	
+   	dosya1=fopen("sayi.txt","w");
+   	
+   	srand(time(NULL));
+
+    ptr=(int*)malloc(sizeof(int));
+
+   	if(dosya1==NULL)
+   	{
+   		printf("Hata...");
+	}
+	else
+	{
+   	   for(i=0;i<100;i++)
+   	   {
+   	    	sayi=rand()%101;
+   		    fprintf(dosya1,"%d\n",sayi);
+   		    printf(" %d ",sayi);
+	   }
+	    
+	 
+	}
+    	fclose(dosya1);
+	                                                       
+   	   dosya1=fopen("sayi.txt","r");
+	   while(fscanf(dosya1,"%d",&sayi) != EOF)
+	   {
+            if((sayi & (1<<5))==0)
+			{
+				sayac++;
+				ptr=(int*)realloc(ptr,sayac*sizeof(int));
+			    *(ptr+sayac-1)=sayi;
+		   }	   	  
+	   }
+   	
+        printf("\n\n\n***5.BITI 0 OLANLAR***\n");  	
+   	    for(i=0;i<sayac;i++)
+   	    {
+   	    	printf(" %d ",*(ptr+i));
+		}
+		
+		fclose(dosya1);
+		free(ptr);
+   	
+   	return 0;
+   }
