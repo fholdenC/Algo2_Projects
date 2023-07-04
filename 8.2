@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node{
+    int sayi;
+    struct Node *sonraki;
+    struct Node *onceki;
+};
+
+    int main()
+    {
+        struct Node *ilk=NULL;
+        struct Node *ptr=NULL;
+        struct Node *gecici=NULL;
+        struct Node *arama=NULL;
+    
+        int x;
+    
+        while(1)
+	    {
+            printf("Sayi Giriniz:");
+            scanf("%d",&x);
+        
+            if(x==-1)
+		    {
+                break;
+            }
+            else
+			{
+            	ptr=(struct Node*)malloc(sizeof(struct Node));
+            	ptr->sayi=x;      //İLK SAYIYI ATAR.....
+            	ptr->sonraki=NULL;
+            	ptr->onceki=NULL;
+            
+            	if(ilk==NULL)
+				{
+                	ilk=ptr;
+            	}
+            	else
+				{
+                	arama=ilk;
+                
+                	while(arama!=NULL&&arama->sayi<x) //KÜÇÜK SAYIYI BULMAK İÇİN GEZİNMEYİ SAĞLAR.....
+					{
+                    	gecici=arama;
+                    	arama=arama->sonraki;
+                	}
+                
+                	if(arama==ilk) //ARANILANIN BASTA OLUP OLMADIĞINI KONTROL EDER...
+					{
+                    	ptr->sonraki=ilk;
+                    	ilk->onceki=ptr;
+                    	ilk=ptr;
+                	}
+                	else  //KUCUK OLANI BULUP DOĞRU YERE EKLER....
+					{
+                    	gecici->sonraki=ptr;
+                    	ptr->onceki=gecici;
+                    	ptr->sonraki=arama;
+                    
+                    	if(arama!=NULL)
+						{
+                        arama->onceki=ptr;
+                    	}
+                	}
+            	}
+        	}
+    	}
+    	
+    	gecici=ilk;
+    	
+        printf("Elemanlar:");
+    	while(gecici!=NULL)  //EKRANA YAZDIRIR......
+		{
+        	printf(" %d ",gecici->sayi);
+        	gecici=gecici->sonraki;
+    	}
+    
+	    return 0;
+	}
