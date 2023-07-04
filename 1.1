@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+  
+   int main(){
+   	
+   	srand(time(NULL));
+   	
+   	FILE *dosya;
+   	
+   	int i,sayi;
+   	
+   	dosya=fopen("sayilar.txt","w");
+   	
+   	if(dosya==NULL)
+   	{
+   		printf("Dosya Olusturulamadi...");
+   		exit(1);
+	}
+	else
+	{
+		for(i=0;i<100;i++)
+		{
+			sayi=rand()%1001;
+			fprintf(dosya,"%d\n",sayi);
+		}
+	}
+	
+		printf("Yazdirma Islemi tamamlandi...");
+		fclose(dosya);
+	
+   	
+   	return 0;
+   }
