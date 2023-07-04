@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+   int main(){
+   	
+   	
+   	FILE *dosya1;
+   	FILE *dosya2;
+   	
+   	int i,sayi;
+   	srand(time(NULL));
+   	
+   	dosya1=fopen("sayilar0.txt","w");
+   	dosya2=fopen("sayilar1.txt","w");
+   	
+   	for(i=0;i<100;i++)
+   	{
+   		sayi=rand()%101;
+   		if((sayi & 1<<5))
+   		{
+   			fprintf(dosya2,"%d=>",sayi);
+   			sayi=sayi & ~8;
+   			fprintf(dosya2,"%d\n",sayi);
+		}
+		else
+		{
+			fprintf(dosya1,"%d=>",sayi);
+			sayi=sayi|16;
+			fprintf(dosya1,"%d\n",sayi);
+		}
+	}
+   	
+   	printf("islem tamamlandi...");
+   	fclose(dosya1);
+   	fclose(dosya2);
+   	
+   	
+   	
+   	
+   	return 0;
+   }
