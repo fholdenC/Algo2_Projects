@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int kaydirma(int sayi,int kaydir)
+{
+	
+	int i;
+	
+	for(i=0;i<kaydir;i++)
+	{
+		if(sayi & (1<<8*sizeof(int) - 1))
+		{
+			sayi <<= 1;
+			sayi = sayi |  1;
+		}
+		else
+		{
+			sayi <<= 1;
+		}
+	}
+	return sayi;
+	
+}
+
+
+   
+   int main(){
+   	
+   	int sayi,kaydir;
+   	
+   	printf("Sayi Giriniz:");
+   	scanf("%d",&sayi);
+   	
+   	printf("Ne Kadar Kaydirmak Istiyorsunuz:");
+   	scanf("%d",&kaydir);
+   	
+   	printf("Kaydirdiktan Sonraki Hali\n");
+   	printf("%d",kaydirma(sayi,kaydir));
+   	
+   	
+   	
+   	
+   	return 0;
+   }
