@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+void right_rotated_shift(char *cumle,int kaydir){
+    
+	int N=strlen(cumle);
+    char temp;
+    
+    kaydir=kaydir%N;
+    
+    for (int i=0;i<kaydir;i++){
+    	
+        temp=*(cumle+N-1);
+        
+        for(int j=N-1;j>=1;j--){
+        	
+            *(cumle+j)=*(cumle+j-1);
+        }
+        *cumle=temp;
+    }
+}
+
+int main(){
+	
+    char cumle[100];
+    int kaydir;
+    
+	printf("Cumle Giriniz: ");
+    scanf("%s",cumle);
+    
+	printf("Kaydirma Miktarini Giriniz: ");
+    scanf("%d",&kaydir);
+    
+    right_rotated_shift(cumle,kaydir);
+    
+    printf("Kaydirilmis Hali: %s",cumle);
+    
+	return 0;
+}
