@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+  struct OGRENCI 
+  {
+	  int id;
+      float vize;
+      float final;
+      float ortalama;
+      struct OGRENCI *sonraki;
+  };
+
+  void ekle(struct OGRENCI **baslangic,int id,float vize,float final)
+  {
+    
+	struct OGRENCI *yeni=(struct OGRENCI*)malloc(sizeof(struct OGRENCI));
+	
+    yeni->id=id;
+    yeni->vize=vize;
+    yeni->final=final;
+    yeni->ortalama=(vize*0.4)+(final*0.6);
+    yeni->sonraki=NULL;
+
+    if(*baslangic==NULL)
+	{
+        *baslangic=yeni;
+    } 
+	else
+	{
+        struct OGRENCI *gecici=*baslangic;
+        while (gecici->sonraki!=NULL)
+		{
+            gecici=gecici->sonraki;
+        }
+        gecici->sonraki=yeni;
+    }
+}
+
+   void yazdir(struct OGRENCI *baslangic)
+    {
+    	
+      printf("ID  VIZE  FINAL  ORTALAMA\n");
+      
+	  while (baslangic!=NULL) 
+	  {
+        printf("%d  %.2f  %.2f  %.2f\n",baslangic->id,baslangic->vize,baslangic->final,baslangic->ortalama);
+        baslangic=baslangic->sonraki;
+	  }
+    }
+
+int main()
+{
+    struct OGRENCI *baslangic=NULL;
+    
+    int id,devam_et;
+    float vize,final;
+
+    do
+	{
+        printf("Ogrenci ID'sini Giriniz: ");
+        scanf("%d",&id);
+        
+		printf("Vize Notunu Giriniz: ");
+        scanf("%f",&vize);
+        
+		printf("Final Notunu Giriniz: ");
+        scanf("%f",&final);
+        
+		ekle(&baslangic,id,vize,final);
+
+        printf("Ekleme Yapmak Ister Misiniz[1:evet/0:hayir]");
+        scanf("%d",&devam_et);
+        
+    }while(devam_et!=0);
+
+    yazdir(baslangic);
+
+    return 0;
+}
