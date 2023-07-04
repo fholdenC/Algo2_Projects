@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+struct Node{
+    int sayi;
+    struct Node *onceki;
+    struct Node *sonraki;
+};
+
+void Terscevir(struct Node **ilk)      //LİSTEYİ TERS ÇEVİRİR..........
+{
+    if(*ilk==NULL||(*ilk)->sonraki==NULL)
+	{
+        return;
+    }
+    
+    struct Node *gecici=*ilk;
+    struct Node *kalan=gecici->sonraki;
+    
+    Terscevir(&kalan);
+    
+    gecici->sonraki->sonraki=gecici;
+    gecici->sonraki=NULL;
+    
+    *ilk=kalan;
+}
+
+
+	int main()
+	{
+    	struct Node *ilk=NULL;
+    	struct Node *ptr=NULL;
+    	
+    	int adet,i,max,min,sayi2;
+    	
+		printf("Kac Adet Sayi Uretilsin:");
+    	scanf("%d",&adet);
+    
+    	printf("Once Minimum Araligi Sonra Maximum Araligi Giriniz:\n");
+    	scanf("%d%d",&min,&max);
+    
+        srand(time(NULL));    
+    
+    	for (i=0;i<adet;i++)  //SAYILARI LİSTEYE ATAR...
+		{
+        	sayi2=rand()%(max-min+1)+min;
+        
+        	if(ilk==NULL)
+	              {
+	                    ilk=(struct Node*)malloc(1*sizeof(struct Node));	
+	                    ilk->sayi=sayi2;
+	                    ilk->onceki=NULL;
+	                    ilk->sonraki=NULL;
+	                    ptr=ilk;
+	               }
+	               else
+	               {
+		                ptr->sonraki=(struct Node*)malloc(1*sizeof(struct Node));
+		                ptr->sonraki->onceki=ptr;
+		                ptr=ptr->sonraki;
+		                ptr->sayi=sayi2;
+		                ptr->sonraki=NULL;
+	               }
+    	}
+    
+    	ptr=ilk;
+    	
+    	printf("Ilk Hali:");
+    	while(ptr!=NULL)       //LİSTENİN İLK HALİNİ EKRANA YAZAR.....
+		{
+        	printf(" %d ",ptr->sayi);
+        	ptr=ptr->sonraki;
+    	}
+    	
+    	Terscevir(&ilk);
+    
+    	ptr=ilk;
+    	
+    	printf("\nTers Hali: ");  //LİSTENİN TERSİNİ YAZAR.......
+    	while (ptr!=NULL)
+		{
+        	printf(" %d ",ptr->sayi);
+        	ptr=ptr->sonraki;
+    	}
+    
+    	return 0;
+	}
