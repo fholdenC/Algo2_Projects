@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node{
+	int sayi;
+	struct Node *sonraki;
+	struct Node *onceki;
+};
+
+    int main()
+    {
+    	struct Node *ilk=NULL;
+        struct Node *ptr=NULL;
+        struct Node *gecici=NULL;
+        
+    	int x;
+    	
+    	while(1)
+    	{
+    		printf("Sayi Giriniz:");
+    		scanf("%d",&x);
+    		
+    		if(x==-1)
+    		{
+    			break;
+			}
+			else //SAYILARI ÇİFT YÖNLÜ BAĞLI LİSTEYE ATAR......
+			{
+	              if(ilk==NULL)
+	              {
+	                    ilk=(struct Node*)malloc(1*sizeof(struct Node));	
+	                    ilk->sayi=x;
+	                    ilk->onceki=NULL;
+	                    ilk->sonraki=NULL;
+	                    ptr=ilk;
+	               }
+	               else
+	               {
+		                ptr->sonraki=(struct Node*)malloc(1*sizeof(struct Node));
+		                ptr->sonraki->onceki=ptr;
+		                ptr=ptr->sonraki;
+		                ptr->sayi=x;
+		                ptr->sonraki=NULL;
+	               }
+			}
+		}
+		
+		gecici=ilk;
+        
+		printf("Elemanlar:"); //EKRANA YAZDIRIR....
+	    while(gecici!=NULL)
+	    {
+		    printf(" %d ",gecici->sayi);
+		    gecici=gecici->sonraki;
+	    }	
+		
+    	
+    	return 0;
+	}
