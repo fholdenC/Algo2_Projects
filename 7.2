@@ -1,0 +1,388 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+	  struct Stack
+	  {
+    	  int veri[100];
+    	  int top;
+	  };
+
+	  struct Queue
+	  {
+    	  int veri[100];
+    	  int ilk,son;
+	  };
+
+    void stack_baslat(struct Stack* stack)
+    {
+         stack->top=-1;
+    }
+
+    int stack_dolu_mu(struct Stack* stack)
+    {
+        return (stack->top==100-1);
+   }
+
+     int stack_bos_mu(struct Stack* stack)
+     {
+        return (stack->top==-1);
+     }
+
+      void stack_sayi_ekleme(struct Stack* stack,int sayi)
+      {
+        	if (stack_dolu_mu(stack))
+		   {
+            	printf("STACK DOLU.\n");
+        	    return;
+    	  }
+    	
+		    stack->veri[++stack->top]=sayi;
+    	    printf("%d sayisi stack'e eklendi.\n",sayi);
+     }
+
+       void stack_sayi_silme(struct Stack* stack,int sayi)
+       {
+    	     if (stack_bos_mu(stack))
+	       {
+                printf("STACK BOS.\n");
+               return;
+           }
+       
+	    int i,bulundu=0;
+    
+	     for (i=stack->top;i>=0;i--)
+	     {
+             if (stack->veri[i]==sayi)
+		     {
+                   bulundu=1;
+            		break;
+            }
+     	}
+        
+		    if (bulundu)
+	       {
+            	printf("%d SAYISI SILINDI.\n",sayi);
+        	   
+			   for (;i<stack->top;i++)
+			   {
+            	stack->veri[i]=stack->veri[i+1];
+        	 } 
+			   stack->top--;
+    	   }
+		   else
+		   {
+        	printf("%d SAYISI BULUNAMADI.\n",sayi);
+    	  }	
+}
+
+         void stack_adres_gosterme(struct Stack* stack,int sayi)
+	    {
+    	   
+		    if (stack_bos_mu(stack))
+		   {
+        	printf("STACK BOS.\n");
+        	return;
+    	   }
+    
+        	int i,bulundu=0;
+    
+    	    for(i=stack->top;i>=0;i--)
+		    {
+        	
+			   if(stack->veri[i]==sayi)
+			  {
+            	bulundu=1;
+            	break;
+        	  } 
+    	   }
+    	   
+		      if(bulundu)
+		      {
+        		printf("%d SAYISI ADRESI:%p\n",sayi,&(stack->veri[i]));
+    	      }
+		      else
+	 	      {
+        		printf("%d SAYISI BULUNAMADI.\n",sayi);
+    		 }
+}
+
+	    void stack_listeleme(struct Stack* stack)
+	    {
+    	
+		   if(stack_bos_mu(stack))
+		   {
+        	printf("STACK BOS.\n");
+        	return;
+    	  }
+    	   	  printf("TUM ELEMANLAR:\n");
+    		  
+			  for(int i=stack->top;i>=0;i--)
+			 {
+        		 printf("%d\n",stack->veri[i]);
+    		 }
+    }
+
+	   void queue_baslatma(struct Queue* queue)
+	   {
+        	queue->ilk=-1;
+    	    queue->son=-1;
+	   }
+
+       int queue_dolu_mu(struct Queue*queue)
+       {
+   	       return (queue->ilk==0&&queue->son==100-1)||(queue->ilk==queue->son+1);
+	  }
+ 
+        int queue_bos_mu(struct Queue* queue)
+        {
+            return (queue->ilk==-1);
+       }
+
+  		 void queue_sayi_ekleme(struct Queue* queue,int sayi)
+   		{
+  	  
+		   if (queue_dolu_mu(queue))
+	  	   {
+      	       printf("QUEUE DOLU.\n");
+               return;
+         }
+      
+	       if (queue->ilk==-1)
+	       {
+        		queue->ilk=0;
+        		queue->son=0;
+           }
+	 		else if (queue->son==100-1)
+			{
+        		queue->son=0;
+    		}
+			else
+			{
+        		queue->son++;
+    	   }
+      
+	  		queue->veri[queue->son]=sayi;
+      		printf("%d SAYISI EKLENDI.\n",sayi);
+	   }
+
+    	  void queue_sayi_silme(struct Queue* queue, int sayi)
+    	 {
+    	
+		     if (queue_bos_mu(queue))
+		    {
+        		printf("QUEUE BOS.\n");
+        		return;
+        	}
+    
+	      int i,bulundu=0;
+          int boyut=(queue->ilk<=queue->son)?(queue->son-queue->ilk+1):(100-queue->ilk+queue->son+1);
+	
+	      for(i=0;i<boyut;i++)
+	      {
+       	 		int index=(queue->ilk+i)%100;
+        		if (queue->veri[index]==sayi)
+	   	  {
+            bulundu=1;
+            break;
+         }
+       }
+    
+		if(bulundu)
+		{ 
+        
+		   printf("%d SAYISI SILINDI.\n",sayi);
+           int silIndex=(queue->ilk+i)%100;
+        
+		    if(silIndex==queue->ilk)
+		   {
+           	 	queue->ilk=-1;
+            	queue->son=-1;
+        	}
+			else
+			{
+            	if(queue->ilk<=queue->son)
+				{
+                	for(int j=i;j<boyut-1;j++)
+					{
+                    	queue->veri[(queue->ilk+j)%100]=queue->veri[(queue->ilk+j+1)%100];
+                   }
+                	queue->son--;
+            	}
+				else
+				{
+                	for(int j=i;j<boyut-1;j++)
+				    {
+        
+					int currIndex=(queue->ilk+j)%100;
+                    int nextIndex=(currIndex+1)%100;
+                    
+					queue->veri[currIndex]=queue->veri[nextIndex];
+                   }
+                      queue->son=(queue->son-1+100)%100;
+              }
+          }
+       }
+    	else
+	   {
+           printf("%d SAYISI BULUNAMADI.\n",sayi);
+       }
+   }
+
+	     void queue_adres_gosterme(struct Queue* queue,int sayi)
+	    {
+    	
+		     if(queue_bos_mu(queue))
+		    {
+        	   printf("QUEUE BOS.\n");
+        	   return;
+    	   }
+    	
+			int i,bulundu=0;
+    		int boyut=(queue->ilk<=queue->son)?(queue->son-queue->ilk+1):(100-queue->ilk+queue->son+1);
+   
+   	 		for(i=0;i<boyut;i++)
+	 		{
+        		int index=(queue->ilk+i)%100;
+        		
+				if(queue->veri[index]==sayi)
+				{
+            		bulundu=1;
+            		break;
+        		}
+    	  }	
+    	
+				if(bulundu)
+				{
+        			printf("%d SAYISININ ADRESI: %p\n",sayi,&(queue->veri[(queue->ilk+i)%100]));
+    			}
+			     else
+		       {
+        	        printf("%d SAYISI BULUNAMADI.\n",sayi);
+    	       }
+      }
+
+		void queue_sayilari_listeleme(struct Queue* queue)
+		{
+    
+			 if(queue_bos_mu(queue))
+			 {
+        	     printf("QUEUE BOS.\n");
+        	     return;
+    	    }
+    
+			printf("TUM ELEMANLAR:\n");
+    	
+			int boyut=(queue->ilk<=queue->son)?(queue->son-queue->ilk+1):(100-queue->ilk+queue->son+1);
+    
+		    for(int i=0;i<boyut;i++)
+		   {
+        		int index=(queue->ilk+i)%100;
+        		printf("%d\n",queue->veri[index]);
+    	   }
+}
+
+  int main()
+  {
+  	  int secim,secim2,sayi;
+       
+       printf("***************STACK-QUEUE UYGULAMASINA HOSGELDINIZ***************\n");
+       printf("1.Stack\n");
+       printf("2.Queue\n");
+       printf("Hangi Yapi Kullanilsin:");
+       scanf("%d",&secim2);
+    
+    	   if (secim2==1)
+		   {
+        		struct Stack stack;
+        		stack_baslat(&stack);
+        
+        	  do{
+            	printf("\n**********Stack Uygulamasi**********\n");
+            	printf("1.Ekle\n");
+            	printf("2.Bul ve Sil\n");
+            	printf("3.Bul ve Goster\n");
+            	printf("4.Tumunu Listele\n");
+            	printf("0.Cikis\n");
+            	printf("Islem Seciniz:");
+            	scanf("%d",&secim);
+
+            switch(secim) 
+			{
+                case 1:
+                       printf("Eklemek Istediginiz Sayiyi Girin:");
+                   	   scanf("%d",&sayi);
+                       stack_sayi_ekleme(&stack,sayi);
+                    break;
+                case 2:
+                       printf("Silmek Istediginiz Sayiyi Girin:");
+                       scanf("%d",&sayi);
+                       stack_sayi_silme(&stack,sayi);
+                    break;
+                case 3:
+                       printf("Adresini Gormek Istediginiz Sayiyi Girin:");
+                       scanf("%d",&sayi);
+                       stack_adres_gosterme(&stack,sayi);
+                    break;
+                case 4:
+                       stack_listeleme(&stack);
+                    break;
+                case 0:
+                       printf("Cikis Yapiliyor........\n");
+                    break;
+                default:
+                       printf("Tekrar Deneyin!!!!\n");
+                    break;
+            }
+          }while(secim!=0);
+    } 
+	  else if(secim2==2)
+	  {
+        struct Queue queue;
+        queue_baslatma(&queue);
+        
+          do{
+           	  printf("\n**********Queue Uygulamasi**********\n");
+              printf("1.Ekle\n");
+              printf("2.Bul ve Sil\n");
+              printf("3.Bul ve Goster\n");
+              printf("4.Tumunu Listele\n");
+              printf("0.Cikis\n");
+              printf("Islem Seciniz:");
+              scanf("%d",&secim);
+
+                switch(secim)
+			   {
+               		 case 1:
+                    		printf("Eklemek Istediginiz Sayiyi Girin:");
+                     		scanf("%d",&sayi);
+                     		queue_sayi_ekleme(&queue,sayi);
+                     	break;
+                     case 2:
+                    		printf("Silmek Istediginiz Sayiyi Girin:");
+                    		scanf("%d",&sayi);
+                    		queue_sayi_silme(&queue,sayi);
+                    	break;
+                	case 3:
+                    		printf("Adresini Gormek Istediginiz Sayiyi Girin:");
+                    		scanf("%d",&sayi);
+                    		queue_adres_gosterme(&queue,sayi);
+                    	break;
+                	case 4:
+                    		queue_sayilari_listeleme(&queue);
+                    	break;
+               		case 0:
+                		    printf("Cikis Yapiliyor.....\n");
+                    	break;
+                	default:
+                    		printf("Tekrar Deneyin!!!!!!\n");
+                    	break;
+            }
+        }while(secim!=0);
+    } 
+	else
+	{
+        printf("Hatali Secim!!!!\n");
+    }
+
+    return 0;
+}
