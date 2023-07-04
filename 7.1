@@ -1,0 +1,150 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node{
+	int sayi;
+	struct Node *sonraki;
+};
+
+struct Node *Push(struct Node *top,int sayi1)
+{
+	struct Node *yeni=(struct Node*)malloc(1*sizeof(struct Node*));
+	
+	yeni->sayi=sayi1;
+	yeni->sonraki=NULL;
+	
+	if(top==NULL)
+	{
+		top=yeni;
+		return top;
+	}
+	else
+	{
+		yeni->sonraki=top;
+		return yeni;
+	}
+}
+
+struct Node *Pop(struct Node *top,int *sayi1)
+{
+	if(top==NULL)
+	{
+		printf("!!!HATA!!!");
+	}
+	else
+	{
+		struct Node *gecici;
+		gecici=top;
+		*sayi1=gecici->sayi;
+		top=top->sonraki;
+		free(gecici);
+		return top;
+	}
+}
+
+struct Node *Enqueue(struct Node *ilk,int sayi2)
+{
+	struct Node *yeni=(struct Node*)malloc(1*sizeof(struct Node*));
+	
+	yeni->sayi=sayi2;
+	yeni->sonraki=NULL;
+	
+	if(ilk==NULL)
+	{
+		ilk=yeni;
+		return ilk;
+	}
+	else
+	{
+		struct Node *gecici=ilk;
+		
+		while(gecici->sonraki!=NULL)
+		{
+			gecici=gecici->sonraki;
+		}
+		gecici->sonraki=yeni;
+		return ilk;
+	}
+}
+
+struct Node *Dequeue(struct Node *ilk,int *sayi2)
+{
+	if(ilk==NULL)
+	{
+		printf("!!!HATA!!!");
+	}
+	else
+	{
+		struct Node *gecici;
+	
+		gecici=ilk;
+        *sayi2=gecici->sayi;
+		ilk=ilk->sonraki;
+		free(gecici);
+		
+		return ilk;	
+	}
+}
+
+   int main(){
+   	
+   	int secim;
+   	
+   	printf("STACK=0//QUEUE=1\nYAPMAK ISTEDIGINIZ ISLEMI SECINIZ:");
+   	scanf("%d",&secim);
+   	
+   	switch(secim)
+	   {
+	   	case 0:
+	   	{
+		
+	   		printf("\n*****STACK ISLEMI*****\n\n");
+   	
+   	        struct Node *top=NULL;
+   	        int sayi1;
+   	
+   	        for(int i=0;i<10;i++)
+   	        {
+   		        printf("Sayi Giriniz:");
+   				scanf("%d",&sayi1);
+   				top=Push(top,sayi1);
+			}
+	
+			   	printf("\n\n");
+   	
+   				for(int i=0;i<10;i++)
+   			{
+   				top=Pop(top,&sayi1);
+   				printf("%d\n",sayi1);
+			}
+	  	}break;		
+	   	
+		case 1:
+		{
+		   	
+			printf("\n*****QUEUE ISLEMI*****\n\n");
+   	
+   			struct Node *ilk=NULL;
+   			int sayi2;
+   			for(int i=0;i<10;i++)
+   			{
+   				printf("Sayi Giriniz:");
+   				scanf("%d",&sayi2);
+   				ilk=Enqueue(ilk,sayi2);
+			}
+   				printf("\n\n");
+   	
+   				for(int i=0;i<10;i++)
+   			{
+   				ilk=Dequeue(ilk,&sayi2);
+   				printf("%d\n",sayi2);
+			}
+		
+		}break;	
+		
+		default:
+			printf("\nHATALI SECIM YAPTINIZ!!!");
+	   }
+   	
+   	return 0;
+   }
